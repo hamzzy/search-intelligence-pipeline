@@ -1,0 +1,437 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Search Intelligence Pipeline - Comprehensive",
+    "tags": ["search", "intelligence", "monitoring"],
+    "style": "dark",
+    "timezone": "browser",
+    "refresh": "30s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Request Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total[5m])",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 0,
+          "y": 0
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 10},
+                {"color": "red", "value": 50}
+              ]
+            },
+            "unit": "reqps"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "Error Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{status=~\"5..\"}[5m]) / rate(http_requests_total[5m]) * 100",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 6,
+          "y": 0
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 1},
+                {"color": "red", "value": 5}
+              ]
+            },
+            "unit": "percent"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Response Time",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 12,
+          "y": 0
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 0.5},
+                {"color": "red", "value": 2}
+              ]
+            },
+            "unit": "s"
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "Active Jobs",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sidekiq_jobs_enqueued",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 18,
+          "y": 0
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 10},
+                {"color": "red", "value": 50}
+              ]
+            },
+            "unit": "short"
+          }
+        }
+      },
+      {
+        "id": 5,
+        "title": "Request Rate by Engine",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{engine=\"google\"}[5m])",
+            "refId": "A",
+            "legendFormat": "Google"
+          },
+          {
+            "expr": "rate(http_requests_total{engine=\"bing\"}[5m])",
+            "refId": "B",
+            "legendFormat": "Bing"
+          },
+          {
+            "expr": "rate(http_requests_total{engine=\"ddg\"}[5m])",
+            "refId": "C",
+            "legendFormat": "DuckDuckGo"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        },
+        "yAxes": [
+          {
+            "label": "Requests/sec",
+            "min": 0
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Response Time Distribution",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket[5m]))",
+            "refId": "A",
+            "legendFormat": "50th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))",
+            "refId": "B",
+            "legendFormat": "95th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))",
+            "refId": "C",
+            "legendFormat": "99th percentile"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 8
+        },
+        "yAxes": [
+          {
+            "label": "Seconds",
+            "min": 0
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Scrape Success Rate by Engine",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "parse_success_ratio{engine=\"google\"} * 100",
+            "refId": "A",
+            "legendFormat": "Google"
+          },
+          {
+            "expr": "parse_success_ratio{engine=\"bing\"} * 100",
+            "refId": "B",
+            "legendFormat": "Bing"
+          },
+          {
+            "expr": "parse_success_ratio{engine=\"ddg\"} * 100",
+            "refId": "C",
+            "legendFormat": "DuckDuckGo"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 16
+        },
+        "yAxes": [
+          {
+            "label": "Success Rate %",
+            "min": 0,
+            "max": 100
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Selector Break Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "selector_break_rate{engine=\"google\"} * 100",
+            "refId": "A",
+            "legendFormat": "Google"
+          },
+          {
+            "expr": "selector_break_rate{engine=\"bing\"} * 100",
+            "refId": "B",
+            "legendFormat": "Bing"
+          },
+          {
+            "expr": "selector_break_rate{engine=\"ddg\"} * 100",
+            "refId": "C",
+            "legendFormat": "DuckDuckGo"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 16
+        },
+        "yAxes": [
+          {
+            "label": "Break Rate %",
+            "min": 0,
+            "max": 100
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Sidekiq Job Metrics",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sidekiq_jobs_enqueued",
+            "refId": "A",
+            "legendFormat": "Enqueued"
+          },
+          {
+            "expr": "sidekiq_jobs_processed",
+            "refId": "B",
+            "legendFormat": "Processed"
+          },
+          {
+            "expr": "sidekiq_jobs_failed",
+            "refId": "C",
+            "legendFormat": "Failed"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 24
+        },
+        "yAxes": [
+          {
+            "label": "Jobs",
+            "min": 0
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "CAPTCHA Events",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "captcha_events_total{type=\"detected\"}",
+            "refId": "A",
+            "legendFormat": "Detected"
+          },
+          {
+            "expr": "captcha_events_total{type=\"solved\"}",
+            "refId": "B",
+            "legendFormat": "Solved"
+          },
+          {
+            "expr": "captcha_events_total{type=\"failed\"}",
+            "refId": "C",
+            "legendFormat": "Failed"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 24
+        },
+        "yAxes": [
+          {
+            "label": "Events",
+            "min": 0
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Top Search Queries",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "topk(10, sum by (query) (rate(http_requests_total[1h])))",
+            "refId": "A",
+            "format": "table"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 32
+        },
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true
+              },
+              "indexByName": {},
+              "renameByName": {
+                "Value": "Requests/hour"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "DOM Signature Distribution",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "count by (dom_signature) (parse_success_ratio)",
+            "refId": "A",
+            "format": "table"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 32
+        },
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true
+              },
+              "indexByName": {},
+              "renameByName": {
+                "Value": "Count"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "annotations": {
+      "list": [
+        {
+          "name": "Deployments",
+          "datasource": "Prometheus",
+          "expr": "ALERTS{alertname=\"SelectorBreakage\"}",
+          "iconColor": "red",
+          "enable": true
+        }
+      ]
+    },
+    "templating": {
+      "list": [
+        {
+          "name": "engine",
+          "type": "query",
+          "query": "label_values(http_requests_total, engine)",
+          "refresh": 1,
+          "includeAll": true,
+          "multi": true
+        }
+      ]
+    }
+  }
+}
