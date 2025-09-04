@@ -1,0 +1,32 @@
+development:
+  clients:
+    default:
+      database: search_intelligence_development
+      hosts:
+        - <%= ENV['MONGODB_URL'] ? ENV['MONGODB_URL'].gsub('mongodb://', '').split('/').first : 'localhost:27017' %>
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 5
+
+test:
+  clients:
+    default:
+      database: search_intelligence_test
+      hosts:
+        - <%= ENV['MONGODB_URL'] ? ENV['MONGODB_URL'].gsub('mongodb://', '').split('/').first : 'localhost:27017' %>
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 5
+
+production:
+  clients:
+    default:
+      database: search_intelligence_production
+      hosts:
+        - <%= ENV['MONGODB_URL'] || 'localhost:27017' %>
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 10
