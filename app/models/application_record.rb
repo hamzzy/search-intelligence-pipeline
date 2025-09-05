@@ -1,3 +1,4 @@
-class ApplicationRecord < ActiveRecord::Base
-  primary_abstract_class
+class ApplicationRecord
+  include Mongoid::Document
+  include Mongoid::Timestamps
 end

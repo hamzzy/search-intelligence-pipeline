@@ -206,21 +206,6 @@ SelectorVersion.create!(
 )
 ```
 
-## Monitoring
-
-### Grafana Dashboards
-
-- **Operations**: Request latency, error rates, job queue status
-- **Parsing**: Success ratios by DOM signature, selector breakage alerts
-- **Business**: Top queries, search volume trends
-
-### Key Metrics
-
-- `scrape_latency_seconds{engine}`: Time to fetch and parse results
-- `parse_success_ratio{engine,signature}`: Success rate by DOM signature
-- `selector_break_rate{engine,signature}`: Selector breakage rate
-- `captcha_events_total{engine,type}`: CAPTCHA detection events
-
 ### Alerts
 
 Selector breakage alerts are automatically generated when parse success rates drop below thresholds. Alerts can be acknowledged and resolved through the API or Grafana.
