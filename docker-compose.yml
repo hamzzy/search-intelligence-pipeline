@@ -103,9 +103,20 @@ services:
     ports:
       - "4317:4317"
       - "4318:4318"
+      - "8889:8889"
     volumes:
       - ./config/otel-collector.yml:/etc/otelcol-contrib/otel-collector.yml
     command: ["--config=/etc/otelcol-contrib/otel-collector.yml"]
+    depends_on:
+      - tempo
+
+  tempo:
+    image: grafana/tempo:latest
+    ports:
+      - "3200:3200"
+    volumes:
+      - tempo_data:/tmp/tempo
+    command: [ "-config.file=/etc/tempo.yaml" ]
 
   frontend:
     build:
@@ -128,3 +139,4 @@ volumes:
   prometheus_data:
   loki_data:
   grafana_data:
+  tempo_data:

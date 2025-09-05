@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   scope :v1 do
     get 'search', to: 'search#show'
     get 'autocomplete', to: 'autocomplete#show'
-    get 'related', to: 'related#show'
     get 'jobs', to: 'jobs#index'
     get 'jobs/:id', to: 'jobs#show'
     get 'selectors/alerts', to: 'selector_alerts#index'
@@ -17,6 +16,7 @@ Rails.application.routes.draw do
   get 'healthz', to: 'health#live'
   get 'readyz', to: 'health#ready'
   get 'metrics', to: 'health#metrics'
+  get 'jobs', to: 'health#jobs'
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   get "up" => "rails/health#show", as: :rails_health_check

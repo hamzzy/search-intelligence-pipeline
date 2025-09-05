@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
 import { 
   BarChart3, 
   Search, 
@@ -7,7 +7,9 @@ import {
   Clock, 
   Settings,
   Activity,
-  TrendingUp
+  TrendingUp,
+  Zap,
+  Link
 } from 'lucide-react'
 
 interface LayoutProps {
@@ -17,6 +19,7 @@ interface LayoutProps {
 const navigation = [
   { name: 'Dashboard', href: '/', icon: BarChart3 },
   { name: 'Query Runner', href: '/query', icon: Search },
+  { name: 'Autocomplete', href: '/autocomplete', icon: Zap },
   { name: 'Selector Watch', href: '/selectors', icon: Eye },
   { name: 'Trend Analysis', href: '/trends', icon: TrendingUp },
   { name: 'Jobs', href: '/jobs', icon: Clock },
@@ -44,7 +47,7 @@ export function Layout({ children }: LayoutProps) {
             {navigation.map((item) => {
               const isActive = location.pathname === item.href
               return (
-                <Link
+                <RouterLink
                   key={item.name}
                   to={item.href}
                   className={`${
@@ -59,7 +62,7 @@ export function Layout({ children }: LayoutProps) {
                     } mr-3 flex-shrink-0 h-5 w-5`}
                   />
                   {item.name}
-                </Link>
+                </RouterLink>
               )
             })}
           </nav>

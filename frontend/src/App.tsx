@@ -6,6 +6,7 @@ import { SelectorWatch } from './pages/SelectorWatch'
 import { TrendAnalysis } from './pages/TrendAnalysis'
 import { Jobs } from './pages/Jobs'
 import { Settings } from './pages/Settings'
+import { AutocompletePage } from './pages/AutocompletePage'
 import { Layout } from './components/Layout'
 
 const queryClient = new QueryClient({
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/query" element={<QueryRunner />} />
+            <Route path="/autocomplete" element={<AutocompletePage />} />
             <Route path="/selectors" element={<SelectorWatch />} />
             <Route path="/trends" element={<TrendAnalysis />} />
             <Route path="/jobs" element={<Jobs />} />

@@ -13,7 +13,6 @@ export interface SearchResult {
   }>
   ads: any[]
   paa: string[]
-  related: string[]
   raw_snapshot_uri: string
   dom_signature: string
 }
@@ -44,12 +43,6 @@ export interface AutocompleteResult {
   ts: string
 }
 
-export interface RelatedResult {
-  query: string
-  related: string[]
-  engine: string
-  ts: string
-}
 
 class ApiService {
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -93,14 +86,6 @@ class ApiService {
     return this.request<AutocompleteResult>(`/v1/autocomplete?${params}`)
   }
 
-  // Related searches
-  async getRelated(query: string, engine: string = 'google'): Promise<RelatedResult> {
-    const params = new URLSearchParams({
-      q: query,
-      engine
-    })
-    return this.request<RelatedResult>(`/v1/related?${params}`)
-  }
 
   // Selector alerts
   async getSelectorAlerts(): Promise<{ alerts: SelectorAlert[] }> {

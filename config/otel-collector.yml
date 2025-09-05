@@ -8,10 +8,16 @@ receivers:
 
 processors:
   batch:
+  memory_limiter:
+    limit_mib: 512
 
 exporters:
   prometheus:
     endpoint: "0.0.0.0:8889"
+  tempo:
+    endpoint: tempo:4317
+    tls:
+      insecure: true
   debug:
     verbosity: detailed
 
@@ -19,9 +25,9 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [batch]
-      exporters: [debug]
+      processors: [memory_limiter, batch]
+      exporters: [tempo, debug]
     metrics:
       receivers: [otlp]
-      processors: [batch]
+      processors: [memory_limiter, batch]
       exporters: [prometheus, debug]
