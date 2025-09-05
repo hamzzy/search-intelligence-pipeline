@@ -8,7 +8,6 @@ A SerpApi-aligned demo showing resilient scraping, normalized SERP APIs, selecto
 - **Resilient Scraping**: httpx + Nokogiri with Playwright fallback
 - **Normalized APIs**: Consistent response format across engines
 - **Selector Tracking**: DOM signature analysis and breakage detection
-- **Full Observability**: OpenTelemetry, Prometheus, Grafana, Loki
 - **Async Processing**: Sidekiq for background job processing
 - **Object Storage**: MinIO for raw HTML snapshots
 
@@ -48,16 +47,13 @@ A SerpApi-aligned demo showing resilient scraping, normalized SERP APIs, selecto
 ```bash
 git clone <repository>
 cd ruby-challenge
-./start-complete.sh
+./start-app.sh
 ```
 
 2. Access the services:
 - **API**: http://localhost:3000
 - **Frontend**: http://localhost:5173
-- **Grafana**: http://localhost:3001 (admin/admin)
-- **Prometheus**: http://localhost:9090
 - **MinIO Console**: http://localhost:9001 (minioadmin/minioadmin)
-- **Loki**: http://localhost:3100
 
 ### Running Individual Components
 
@@ -86,12 +82,6 @@ The React frontend provides a comprehensive dashboard for monitoring and managin
 - **Jobs**: Track background job status and execution
 - **Settings**: Configure system parameters and integrations
 
-#### Key Features
-- Real-time metrics and charts using Recharts
-- TanStack Query for efficient data fetching
-- Responsive design with Tailwind CSS
-- Interactive job status monitoring
-- Alert management and acknowledgment
 
 ### API Endpoints
 
@@ -144,30 +134,6 @@ curl "http://localhost:3000/readyz"
 
 # Metrics
 curl "http://localhost:3000/metrics"
-```
-
-### Example Response
-
-```json
-{
-  "query": "best running shoes 2025",
-  "engine": "google",
-  "ts": "2025-01-04T08:00:00Z",
-  "organic": [
-    {
-      "rank": 1,
-      "title": "Best Running Shoes 2025 - Runner's World",
-      "url": "https://www.runnersworld.com/gear/a20855451/best-running-shoes/",
-      "snippet": "Our top picks for the best running shoes of 2025...",
-      "rich_type": null
-    }
-  ],
-  "ads": [],
-  "paa": ["Which brand is best for running shoes?"],
-  "related": ["running shoes for flat feet"],
-  "raw_snapshot_uri": "s3://snapshots/google/abc123/index.html",
-  "dom_signature": "ab12cd34..."
-}
 ```
 
 ## Development
@@ -265,15 +231,3 @@ Selector breakage alerts are automatically generated when parse success rates dr
 - **ToS Compliance**: Low scrape frequency to avoid terms of service violations
 - **CAPTCHA Handling**: Basic detection, no automated solving
 - **Proxy Rotation**: Placeholder implementation
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Add tests for new functionality
-4. Ensure all tests pass
-5. Submit a pull request
-
-## License
-
-MIT License - see LICENSE file for details.
