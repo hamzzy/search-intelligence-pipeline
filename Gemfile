@@ -10,7 +10,7 @@ gem 'httpx'
 gem 'nokogiri'
 gem 'playwright-ruby-client' # or 'ferrum', 'cuprite'
 gem 'aws-sdk-s3' # for MinIO
-gem 'sqlite3', '~> 1.4'
+gem 'sqlite3', '~> 2.7'
 
 gem 'oj'
 gem 'lograge'
